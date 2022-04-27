@@ -1,0 +1,46 @@
+.list{
+    display: flex;
+    background-color: white;
+    margin: 10px 10px 0px 10px;
+    align-items: center;
+    padding: 20px;
+}
+
+.info{
+    flex: 8;
+}
+.buttonsList{
+    flex: 2
+}
+.excluir{
+    width: 100px;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    color: white;
+    background-color: #e45959;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.editar{
+    width: 100px;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    color: white;
+    background-color: #e4bf59;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.texto1 {
+    font-size: 18px;
+    font-weight: 300;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.texto2 {
+    font-size: 18px;
+    font-weight: 300;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

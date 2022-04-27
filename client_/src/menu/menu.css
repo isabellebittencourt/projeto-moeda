@@ -1,0 +1,37 @@
+.top{
+    width: 100%;
+    height: 80px;
+    top:0;
+    display:  flex;
+    align-items: center;
+}
+
+.topTitle{
+    font-size: 30px;
+    font-weight: 300;
+    color: #f08080
+}
+
+.topRight{
+    flex: 2;
+}
+.topLeft{
+    padding: 10px;
+    flex:8;
+}
+.topList{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+}
+.topListItem{
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: 300;
+    color :#444;
+    text-decoration:none;
+    cursor: pointer;
+}
+.Link{
+    text-decoration:none;
+}
