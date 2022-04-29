@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Trabalho de Integração de Software - Diego Deconto",
+    "desctiption": "Essa API tem como objetivo a manipulação de moedas",
+    "termsOfService": "http://localhost:3000/terms",
+    "version": "1.0.0"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "API de teste"
+    }
+  ],
+
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Listagem das moedas",
+        "description": "Essa rota faz as listagens das moedas no Banco",
+        "tags": ["Moeda"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista das moedas",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Moeda"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Cadastro da moeda",
+        "description": "Essa rota realiza o Cadastro da Moeda no mongoDB",
+        "tags": ["Moeda"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Moeda"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Salvo com sucesso",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#/components/schemas/Moeda"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao cadastrar"
+          }
+        }
+      }
+    },
+
+    "/delete":{}
+
+  },
+
+  "components": {
+    "schemas": {
+      "Moeda": {
+        "type": "object",
+        "properties": {
+          "moedaOrigem": {
+            "type": "string"
+          },
+          "moedaConvercao": {
+            "type": "string"
+          },
+          "valorMoeda": {
+            "type": "string"
+          },
+          "valorMoedaConvertida": {
+            "type": "string"
+          },
+          "valorMoedaInteiro": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
