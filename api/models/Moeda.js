@@ -4,27 +4,27 @@ const moedaSchema = new mongoose.Schema({
     moedaOrigem:{
         type:String,
         required: true,
-        unique:true
+        unique:false
     },
     moedaConvercao:{
         type:String,
         required: true,
-        unique:true
+        unique:false
     },
     valorMoeda:{
         type:String,
         required: true,
-        unique:true
+        unique:false
     },
     valorMoedaConvertida:{
         type:String,
         required: true,
-        unique:true
+        unique:false
     },
     valorMoedaInteiro:{
         type:Number,
         required: true,
-        unique:true
+        unique:false
     },
 },{timestamps:true})
 

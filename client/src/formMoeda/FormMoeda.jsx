@@ -4,7 +4,7 @@ import './formMoeda.css';
 import axios from "axios"
 
 export default function Form(props) {
-//https://github.com/RubenFilipe07/Conversor-de-moedas
+  
 //https://manage.exchangeratesapi.io/quickstart
   var resultado;
   let atualizar = "";
@@ -30,14 +30,6 @@ export default function Form(props) {
     }
     updateValue();
     },[ ]);
-  
-
-  fetch("http://api.exchangeratesapi.io/v1/latest?access_key=78c059c39b2748559e40186f5a65d53f")
-  .then(result=> result.json())
-  .then(
-    (result) => {
-      resultado = result['rates']
-    });
 
   const salvar = async(data)=>{
           console.log(data);
@@ -65,53 +57,41 @@ function alertSweet(title){
 }
 
   function converter() {
-    if(resultado != null) { 
-    var real = resultado['BRL'] ;
-    var euro = resultado["EUR"]
-    var dolar = resultado["USD"]
-    var dolarCanadense = resultado["CAD"]
-    var dolarAustraliano = resultado["AUD"]
-    var libra = resultado["GBP"]
-    var peso = resultado["ARS"]
-    var iene = resultado["JPY"]
-    var yuan = resultado["CNY"]
-    var franco = resultado["CHF"]
-    var shekel = resultado["ILS"]
-    var btcoin = resultado["BTC"]
   
     var numeroDigitado = document.querySelector(".first-input").value;
-    numeroDigitado = parseFloat(numeroDigitado);
-
-    var calculo;
-
     var saida = document.querySelector("#saida");
     var selectFirst = document.querySelector(".first-select").value;
     var selectSecond = document.querySelector(".second-select").value;
-  
-    function  calcular(valorMoedaSecundaria, codigoMoeda, codigoMoedaAtual,valorMoedaPrimaria) {
-/*
-      if(codigoMoeda == 'BTC' || codigoMoedaAtual == 'BTC'){
-        peso  = valorMoedaSecundaria / valorMoedaPrimaria;  
-      }else{
-        peso  = valorMoedaSecundaria / valorMoedaPrimaria;  
-        //peso  = valorMoedaPrimaria / valorMoedaSecundaria;   
-      } */
-      if(valorMoedaSecundaria > valorMoedaPrimaria ){
-          peso  = valorMoedaSecundaria / valorMoedaPrimaria;
-      }else{
-        peso  = valorMoedaSecundaria / valorMoedaPrimaria;  
-      }
-      calculo = peso * numeroDigitado;
+    numeroDigitado = parseFloat(numeroDigitado);
 
-      console.log(valorMoedaPrimaria)
-      console.log(valorMoedaSecundaria)
-      var valorDigitado = numeroDigitado.toLocaleString('de-DE',{style: 'currency', currency: codigoMoedaAtual});
-      var resultado = calculo.toLocaleString('de-DE',{style: 'currency', currency: codigoMoeda});
+    var myHeaders = new Headers();
+    myHeaders.append("apikey", "hTAzPmMdyXhpbCyo4RLveX64KpTWak3D");
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders
+    };
+
+    fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${selectSecond}&from=${selectFirst}&amount=${numeroDigitado}`, requestOptions)
+          .then(response => response.json())
+          .then( (response) =>{
+              console.log(response.result)
+              calcular(response)
+          })
+          .catch(error => console.log('error', error));
+
+  //valorMoedaSecundaria, codigoMoeda, codigoMoedaAtual,valorMoedaPrimaria
+    function  calcular(result) {
+     var numeroDigitado = result['query'].amount;
+     var calculo = result.result;
+      var valorDigitado = numeroDigitado.toLocaleString('de-DE',{style: 'currency', currency: selectFirst});
+      var resultado = calculo.toLocaleString('de-DE',{style: 'currency', currency: selectSecond});
       saida.innerHTML = `Resultado: <b> ${valorDigitado} </b> é equivalente a <b>${resultado} </b>`
 
       let dados =  { 
-      "moedaOrigem": codigoMoedaAtual,
-      "moedaConvercao": codigoMoeda,
+      "moedaOrigem": selectFirst,
+      "moedaConvercao": selectSecond,
       "valorMoeda": valorDigitado,
       "valorMoedaInteiro" : numeroDigitado,
       "valorMoedaConvertida": resultado }
@@ -123,7 +103,6 @@ function alertSweet(title){
         update(dados)
         alertSweet("Atualizado com Sucesso");
       }
-            
     }
   
     if (isNaN(numeroDigitado) == true && selectSecond == "NULL") {
@@ -149,57 +128,6 @@ function alertSweet(title){
       return false;
     }
 
-    if (selectSecond == "BRL" && !isNaN(numeroDigitado) && !isNaN(real)) {
-        calcular(real, "BRL", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "EUR" && !isNaN(numeroDigitado) && !isNaN(euro)) {
-        calcular(euro, "EUR", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "USD" && !isNaN(numeroDigitado) && !isNaN(dolar)) {
-        calcular(dolar, "USD", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "CAD" && !isNaN(numeroDigitado) && !isNaN(dolarCanadense)) {
-        calcular(dolarCanadense, "CAD", selectFirst, resultado[selectFirst])        
-    }
-  
-    if (selectSecond == "AUD" && !isNaN(numeroDigitado) && !isNaN(dolarAustraliano)) {
-        calcular(dolarAustraliano, "AUD", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "GBP" && !isNaN(numeroDigitado) && !isNaN(libra)) {
-        calcular(libra, "GBP", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "ARS" && !isNaN(numeroDigitado) && !isNaN(peso)) {
-        calcular(peso, "ARS", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "JPY" && !isNaN(numeroDigitado) && !isNaN(iene)) {
-        calcular(iene, "JPY", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "CNY" && !isNaN(numeroDigitado) && !isNaN(yuan)) {
-        calcular(yuan, "CNY", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "CHF" && !isNaN(numeroDigitado) && !isNaN(franco)) {
-        calcular(franco, "CHF", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "ILS" && !isNaN(numeroDigitado) && !isNaN(shekel)) {
-        calcular(shekel, "ILS", selectFirst, resultado[selectFirst])
-    }
-  
-    if (selectSecond == "BTC" && !isNaN(numeroDigitado) && !isNaN(btcoin)) {
-        btcoin = btcoin * 1000
-        calcular(btcoin, "BTC", selectFirst, resultado[selectFirst])
-    }
-
-  }
-  
   }
 
   return (

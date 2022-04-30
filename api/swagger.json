@@ -15,18 +15,18 @@
   ],
 
   "paths": {
-    "/": {
+    "/api/moedas": {
       "get": {
         "summary": "Listagem das moedas",
         "description": "Essa rota faz as listagens das moedas no Banco",
         "tags": ["Moeda"],
-        "produces": ["application/json"],
+        "produces": "application/json",
         "responses": {
           "200": {
             "description": "Lista das moedas",
             "schema": {
               "type": "array",
-              "items": {
+              "itens": {
                 "$ref": "#/components/schemas/Moeda"
               }
             }
@@ -34,7 +34,7 @@
         }
       }
     },
-    "/register": {
+    "/api/moedas/register": {
       "post": {
         "summary": "Cadastro da moeda",
         "description": "Essa rota realiza o Cadastro da Moeda no mongoDB",
@@ -44,6 +44,18 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Moeda"
+              },
+
+              "examples": {
+                "moeda": {
+                  "value": {
+                    "moedaOrigem": "BRL",
+                    "moedaConvercao": "JPY",
+                    "valorMoeda": "450",
+                    "valorMoedaConvertida": "40",
+                    "valorMoedaInteiro": 321
+                  }
+                }
               }
             }
           }
@@ -67,8 +79,85 @@
       }
     },
 
-    "/delete":{}
+    "/api/moedas/{id}": {
+      "put": {
+        "summary": "Atualização dos dados",
+        "description": "Essa rota faz as atualização pelo ID",
+        "tags": ["Moeda"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da moeda criada no banco",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Moeda"
+              },
+              "examples": {
+                "moeda": {
+                  "value": {
+                    "moedaOrigem": "JPY",
+                    "moedaConvercao": "EUR",
+                    "valorMoeda": "22",
+                    "valorMoedaConvertida": "3111",
+                    "valorMoedaInteiro": 123
+                  }
+                }
+              }
+            }
+          }
+        },
 
+        "responses": {
+          "200": {
+            "description": "Atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#/components/schemas/Moeda"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Remoção da moeda",
+        "description": "Essa rota deleta a moeda pelo ID",
+        "tags": ["Moeda"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da moeda criada no banco",
+            "required": true
+          }
+        ],
+        "produces": "application/json",
+        "responses": {
+          "200": {
+            "description": "Moeda removida",
+            "schema": {
+              "$ref": "#/components/schemas/Moeda"
+            }
+          },
+
+          "500": {
+            "description": "Erro ao deletar"
+          }
+        }
+      }
+    }
   },
 
   "components": {
